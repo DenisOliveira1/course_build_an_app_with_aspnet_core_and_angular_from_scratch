@@ -17,7 +17,7 @@ namespace api.Data.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "5.0.5");
 
-            modelBuilder.Entity("api.Models.AppUserModel", b =>
+            modelBuilder.Entity("api.Models.UserModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -28,7 +28,7 @@ namespace api.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppUsers");
+                    b.ToTable("Users");
                 });
 #pragma warning restore 612, 618
         }
