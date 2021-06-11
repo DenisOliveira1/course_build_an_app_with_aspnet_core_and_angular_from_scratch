@@ -1,0 +1,13 @@
+Run:
+    dotnet watch run
+    npm start
+
+Refazer tabelas:
+    dotnet ef database drop
+    dotnet ef database update
+
+Angular Component:
+    ng g c nav --skip-tests
+
+Angular Service:
+    ng g s account --skip-tests
