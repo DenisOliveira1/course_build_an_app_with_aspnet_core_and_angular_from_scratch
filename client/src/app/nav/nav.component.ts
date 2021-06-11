@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { UserModel } from '../_models/userModel';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { AccountService } from '../_services/account.service';
 
 @Component({
@@ -16,7 +16,9 @@ export class NavComponent implements OnInit {
   // Importar algo como private significa que só pode ser usado no .ts
   // Importar como public permite seu uso no .html também
   constructor(
-    public accountService: AccountService
+    public accountService: AccountService,
+    private router: Router,
+    private toastr : ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -26,15 +28,17 @@ export class NavComponent implements OnInit {
   // Coloca o user no observable currentUser$ do service
   login(){
     this.accountService.login(this.model).subscribe(response => {
-      console.log(response);
+      this.router.navigateByUrl("/members");
     }, error => {
       console.log(error);
+      this.toastr.error(error.error);
     })
   }
 
   // Coloca null no observable currentUser$ do service
   logout(){
     this.accountService.logout();
+    this.router.navigateByUrl("/");
   }  
 
 }

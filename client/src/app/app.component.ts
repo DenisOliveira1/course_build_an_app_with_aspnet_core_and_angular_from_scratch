@@ -12,7 +12,7 @@ export class AppComponent implements OnInit {
   title: string = 'The Datting App';
 
   constructor(
-    private accountService: AccountService
+    private accountService: AccountService,
   ) {
 
   }

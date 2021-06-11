@@ -1,6 +1,8 @@
 index
 |
 app-root
+|
+router-outlet
 |       \
 app-nav app-home
             |

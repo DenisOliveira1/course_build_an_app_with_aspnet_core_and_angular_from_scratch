@@ -11,3 +11,9 @@ Angular Component:
 
 Angular Service:
     ng g s account --skip-tests
+
+Angular Guard:
+    ng g guard auth --skip-tests
+
+Angular Module:
+    ng g m shared --flat
