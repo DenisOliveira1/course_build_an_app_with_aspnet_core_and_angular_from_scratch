@@ -30,6 +30,18 @@ export class AccountService {
     )
   }
 
+  register(model: any){
+    return this.httpClient.post(this.baseUrl + "account/register", model).pipe(
+      map((response: UserModel) => {
+        const user = response;
+        if (user) {
+          localStorage.setItem("user",JSON.stringify(user)); // Transforma em JSON
+          this.currentUserSource.next(user);
+        }
+      })
+    )
+  }
+
   // Define observable currentUser$ como o user informado
   setCurrentUser(user: UserModel){
     this.currentUserSource.next(user);

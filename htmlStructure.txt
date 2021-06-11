@@ -1,0 +1,7 @@
+index
+|
+app-root
+|       \
+app-nav app-home
+            |
+        app-register
