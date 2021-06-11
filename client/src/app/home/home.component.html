@@ -11,9 +11,7 @@
     <div *ngIf="registerMode" class="container">
         <div class="row justify-content-center">
             <div class="col-4">
-                <!-- Usado para receber popriedades de um componente pai -->
-                <!-- Usado para enviar popriedades para um componente pai -->
-            <app-register [usersFromHomeComponent]="users" (cancelRegisterToHomeComponent)="cancelRegisterMode($event)"></app-register>
+            <app-register (cancelRegisterToHomeComponent)="cancelRegisterMode($event)"></app-register>
             </div>
         </div>
     </div>
