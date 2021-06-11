@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { UserModel } from '../_models/userModel';
 import { AccountService } from '../_services/account.service';
 
 @Component({
@@ -11,38 +13,28 @@ export class NavComponent implements OnInit {
   model: any = {};
   loggedIn: boolean = false;
 
+  // Importar algo como private significa que só pode ser usado no .ts
+  // Importar como public permite seu uso no .html também
   constructor(
-    private accountService: AccountService
+    public accountService: AccountService
   ) { }
 
   ngOnInit(): void {
-    this.getCurrentUser();
+
   }
 
-  // Define loggedIn como true e coloca ele no observable currentUser$
+  // Coloca o user no observable currentUser$ do service
   login(){
     this.accountService.login(this.model).subscribe(response => {
       console.log(response);
-      this.loggedIn = true;
     }, error => {
       console.log(error);
     })
   }
 
-  // Define loggedIn como false e define observable currentUser$ como null
+  // Coloca null no observable currentUser$ do service
   logout(){
     this.accountService.logout();
-    this.loggedIn = false;
-  }
-
- // Define loggedIn de acordo tenha um user no observable currentUser$
-  getCurrentUser(){
-    this.accountService.currentUser$.subscribe(user => {
-      this.loggedIn = !!user;
-    }, error => {
-      console.log(error);
-    })
-  }
-  
+  }  
 
 }

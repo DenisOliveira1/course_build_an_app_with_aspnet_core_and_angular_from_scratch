@@ -25,7 +25,7 @@ export class AppComponent implements OnInit {
     this.setCurrentUser();
   }
 
-  // Caso tenha um usuário no localStorage coloca ele no observable currentUser$
+  // Caso tenha um usuário no localStorage coloca ele no observable currentUser$ do service
   setCurrentUser(){
     const user: UserModel = JSON.parse(localStorage.getItem("user"));
     this.accountService.setCurrentUser(user);
