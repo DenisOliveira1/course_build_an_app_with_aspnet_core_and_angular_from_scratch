@@ -3,7 +3,7 @@ index
 app-root
 |
 router-outlet
-|       \
-app-nav app-home
+|       \           \           \               \               \               \
+app-nav app-home app-member app-messages app-member-list app-member-detail app-test-errors
             |
         app-register

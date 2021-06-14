@@ -22,16 +22,21 @@ export class NavComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
   }
 
   // Coloca o user no observable currentUser$ do service
   login(){
     this.accountService.login(this.model).subscribe(response => {
       this.router.navigateByUrl("/members");
-    }, error => {
-      console.log(error);
-      this.toastr.error(error.error);
+      this.toastr.success("Logged in successfully");
+    },error => {
+      if (error){
+        if(Array.isArray(error)){
+          for (let line of error){
+            this.toastr.error(line);
+          }
+        }
+      } 
     })
   }
 
@@ -39,6 +44,7 @@ export class NavComponent implements OnInit {
   logout(){
     this.accountService.logout();
     this.router.navigateByUrl("/");
+    this.toastr.success("Logged out successfully");
   }  
 
 }

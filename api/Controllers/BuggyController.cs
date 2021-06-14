@@ -49,7 +49,7 @@ namespace api.Controllers
                 var thingToReturn = thing.ToString();
                 return thingToReturn;
             }
-            catch(Exception e){
+            catch(Exception ex){
                 return StatusCode(503,"Computer says no!");
             }
         }

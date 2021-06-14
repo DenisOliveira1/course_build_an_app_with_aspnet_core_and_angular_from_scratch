@@ -17,3 +17,6 @@ Angular Guard:
 
 Angular Module:
     ng g m shared --flat
+
+Angular Interceptor:
+    ng g interceptor error --skip-tests
