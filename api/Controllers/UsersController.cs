@@ -28,9 +28,8 @@ namespace api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
         {
-            var users = await _userRepository.GetUsersAsync();
-            var usersDto = _mapper.Map<IEnumerable<MemberDto>>(users);
-            return Ok(usersDto);
+            var users = await _userRepository.GetMembersAsync();
+            return Ok(users);
         }
 
         // [Authorize] exige autenticação por token para acessar o endpoint
@@ -38,9 +37,8 @@ namespace api.Controllers
         [HttpGet("{username}")]
         public async Task<ActionResult<MemberDto>> GetUser(string username)
         {
-            var user = await _userRepository.GetUserByUsernameAsync(username);
-            var userDto = _mapper.Map<MemberDto>(user);
-            return Ok(userDto);
+            var user = await _userRepository.GetMembersByUsernameAsync(username);
+            return user;
         }
     }
 }

@@ -24,8 +24,9 @@ namespace api.Models
         public ICollection<PhotoModel> Photos { get; set; }    
  
         // O nome deve ser nome do "Ger" + parâmetro para o automapper poder preencher automaticamente o valor da variável após o mapping
-        public int GetAge(){
-            return DateOfBirth.CalculateAge();
-        }
+        // Para trazer o Dto direto do repository de maneira eficiente essa função não deve estar aqui, mas sim no AutoMapperProfiles
+        // public int GetAge(){
+        //     return DateOfBirth.CalculateAge();
+        // }
     }
 }
