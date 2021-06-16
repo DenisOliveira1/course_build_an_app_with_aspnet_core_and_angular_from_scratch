@@ -30,13 +30,11 @@ export class NavComponent implements OnInit {
       this.router.navigateByUrl("/members");
       this.toastr.success("Logged in successfully");
     },error => {
-      if (error){
         if(Array.isArray(error)){
           for (let line of error){
             this.toastr.error(line);
           }
         }
-      } 
     })
   }
 
