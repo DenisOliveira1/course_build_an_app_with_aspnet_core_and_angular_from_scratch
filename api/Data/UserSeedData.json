@@ -96,7 +96,7 @@
     },
         {
           "UserName": "Stone",
-          "Gender": "female",
+          "Gender": "male",
           "DateOfBirth": "1984-08-25",
           "KnownAs": "Stone",
           "Created": "2019-02-20",
@@ -108,14 +108,14 @@
           "Country": "Oman",
           "Photos": [
             {
-              "Url": "https://randomuser.me/api/portraits/male/69.jpg",
+              "Url": "https://randomuser.me/api/portraits/men/69.jpg",
               "IsMain": true
             }
           ]
         },
         {
           "UserName": "Burnett",
-          "Gender": "female",
+          "Gender": "male",
           "DateOfBirth": "1983-12-16",
           "KnownAs": "Burnett",
           "Created": "2020-01-08",
@@ -127,14 +127,14 @@
           "Country": "Liechtenstein",
           "Photos": [
             {
-              "Url": "https://randomuser.me/api/portraits/male/89.jpg",
+              "Url": "https://randomuser.me/api/portraits/men/89.jpg",
               "IsMain": true
             }
           ]
         },
         {
           "UserName": "Lawson",
-          "Gender": "female",
+          "Gender": "male",
           "DateOfBirth": "1962-02-16",
           "KnownAs": "Lawson",
           "Created": "2019-04-30",
@@ -146,14 +146,14 @@
           "Country": "Niger",
           "Photos": [
             {
-              "Url": "https://randomuser.me/api/portraits/male/86.jpg",
+              "Url": "https://randomuser.me/api/portraits/men/86.jpg",
               "IsMain": true
             }
           ]
         },
         {
           "UserName": "Warren",
-          "Gender": "female",
+          "Gender": "male",
           "DateOfBirth": "1953-10-30",
           "KnownAs": "Warren",
           "Created": "2019-04-11",
@@ -165,14 +165,14 @@
           "Country": "Tanzania",
           "Photos": [
             {
-              "Url": "https://randomuser.me/api/portraits/male/59.jpg",
+              "Url": "https://randomuser.me/api/portraits/men/59.jpg",
               "IsMain": true
             }
           ]
         },
         {
           "UserName": "Alvarez",
-          "Gender": "female",
+          "Gender": "male",
           "DateOfBirth": "1964-03-04",
           "KnownAs": "Alvarez",
           "Created": "2019-05-30",
@@ -184,7 +184,7 @@
           "Country": "Western Sahara",
           "Photos": [
             {
-              "Url": "https://randomuser.me/api/portraits/male/32.jpg",
+              "Url": "https://randomuser.me/api/portraits/men/32.jpg",
               "IsMain": true
             }
           ]
