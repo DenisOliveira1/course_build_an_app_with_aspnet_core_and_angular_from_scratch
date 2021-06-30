@@ -10,6 +10,7 @@ import { MemberModel } from 'src/app/_models/memberModel';
 })
 export class MemberCardComponent implements OnInit {
 
+  // Anotação para receber propriedades para um componente pai
   @Input() member: MemberModel;
   
   constructor() { }

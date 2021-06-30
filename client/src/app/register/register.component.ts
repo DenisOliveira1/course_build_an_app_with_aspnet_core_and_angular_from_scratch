@@ -8,8 +8,8 @@ import { AccountService } from '../_services/account.service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-
-  @Output() cancelRegisterToHomeComponent = new EventEmitter(); // Usado para enviar popriedades para um componente pai
+  // Anotação para enviar propriedades para um componente pai
+  @Output() cancelRegisterToHomeComponent = new EventEmitter();
 
   model: any = {};
 
