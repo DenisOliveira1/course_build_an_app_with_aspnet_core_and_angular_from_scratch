@@ -7,9 +7,9 @@ import { HomeComponent } from './home/home.component';
 import { ListsComponent } from './lists/lists.component';
 import { MessagesComponent } from './messages/messages.component';
 import { AuthGuard } from './_guards/auth.guard';
-import { MemberDetailComponent } from './_members/member-detail/member-detail.component';
-import { MemberListComponent } from './_members/member-list/member-list.component';
-import { MemberEditComponent } from './_members/member-edit/member-edit.component';
+import { MemberDetailComponent } from './members/member-detail/member-detail.component';
+import { MemberListComponent } from './members/member-list/member-list.component';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
 import { PreventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.guard';
 
 const routes: Routes = [

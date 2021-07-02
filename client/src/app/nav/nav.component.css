@@ -1,3 +1,8 @@
 .dropdown-toggle, .dropdown-item{
     cursor: pointer;
 }
+
+.user-img{
+    max-height: 40px;
+    border: 2px solid #fff;
+}

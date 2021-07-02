@@ -24,8 +24,7 @@ export class AccountService {
       map((response: UserModel) => {
         const user = response;
         if (user) {
-          localStorage.setItem("user",JSON.stringify(user)); // Transforma em JSON
-          this.currentUserSource.next(user);
+          this.setCurrentUser(user);
         }
         return user;
       })
@@ -37,7 +36,7 @@ export class AccountService {
       map((response: UserModel) => {
         const user = response;
         if (user) {
-          localStorage.setItem("user",JSON.stringify(user)); // Transforma em JSON
+          this.setCurrentUser(user);
           this.currentUserSource.next(user);
         }
         return user;
@@ -47,6 +46,7 @@ export class AccountService {
 
   // Define observable currentUser$ como o user informado
   setCurrentUser(user: UserModel){
+    localStorage.setItem("user",JSON.stringify(user)); // Transforma em JSON
     this.currentUserSource.next(user);
   }
 

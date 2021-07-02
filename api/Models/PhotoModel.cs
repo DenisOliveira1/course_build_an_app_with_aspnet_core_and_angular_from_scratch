@@ -10,7 +10,7 @@ namespace api.Models
         public string Url { get; set; }
         public bool IsMain { get; set; }
         public int MyProperty { get; set; }
-        public int PublicId { get; set; }
+        public string PublicId { get; set; }
         public UserModel User { get; set; }
         public int UserId { get; set; }
     }

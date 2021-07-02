@@ -9,7 +9,13 @@ Refazer tabelas:
 Gerar migration:
     dotnet ef migrations add ExtendedUserEntity
 
+Desfaz migration m:
+    dotnet ef migrations revert 'nome m-1'
+
 Remove último migration:
+    dotnet ef migrations remove
+
+Atualiza tabelas da database conforme migrations:
     dotnet ef migrations remove
 
 Angular Component:
