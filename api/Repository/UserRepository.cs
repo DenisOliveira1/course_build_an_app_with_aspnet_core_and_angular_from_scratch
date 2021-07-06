@@ -33,6 +33,10 @@ namespace api.Repository
             _context.Entry(user).State = EntityState.Modified;
         }
 
+        public void Delete(UserModel user)
+        {
+            _context.Remove(user);
+        }
 
         // UserModel
 

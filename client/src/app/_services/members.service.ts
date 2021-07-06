@@ -64,4 +64,8 @@ export class MembersService {
     return this.httpClient.delete(this.baseUrl + "users/delete-photo/" + photoId, {});
   }
 
+  deleteUser(){
+    return this.httpClient.delete(this.baseUrl + "users/delete-user/", {});
+  }
+
 }

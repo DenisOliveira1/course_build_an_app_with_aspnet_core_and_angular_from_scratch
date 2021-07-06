@@ -1,6 +1,7 @@
 import { FunctionCall } from '@angular/compiler';
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs/operators';
 import { MemberModel } from 'src/app/_models/memberModel';
@@ -30,7 +31,8 @@ export class MemberEditComponent implements OnInit {
   constructor(
     private accountService : AccountService,
     private memberService : MembersService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router
   ) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(
       user => this.user = user
@@ -53,6 +55,14 @@ export class MemberEditComponent implements OnInit {
       // Mesmo apagando as alterações feitas em um form o status dirty FunctionCall
       // Após salvar o form o status do form é redefinido e o dirty some, desativando o botão e o alerta novamente
       this.editForm.reset(this.member);
+    })
+  }
+
+  deleteAccount(){
+    this.memberService.deleteUser().subscribe(() => {
+      this.router.navigateByUrl("/");
+      this.toastr.warning("Account deleted successfully");
+      this.accountService.setCurrentUser(null);
     })
   }
 }

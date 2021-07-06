@@ -37,7 +37,7 @@
         
             <tab heading="About {{member.knownAs | titlecase}}">
                 <form #editForm="ngForm" (ngSubmit)="updateMember()" id="editForm">
-                    <h4>Description</h4>
+                    <h4 class="mt-3">Description</h4>
                     <textarea [(ngModel)]="member.introduction" name="introduction" rows="6" class="form-control"></textarea>
 
                     <h4 class="mt-2">Looking for</h4>
@@ -58,9 +58,13 @@
             </tab>
     
             <tab heading="Photos">
-                <app-photo-editor [member]="member"></app-photo-editor>
+                <app-photo-editor class="mt-3" [member]="member"></app-photo-editor>
             </tab>
-    
+
+            <tab heading="Account">
+                <button (click)="deleteAccount()" class="btn btn-danger btn-block mt-3" style="width: 300px;">Delete</button>
+            </tab>
+
         </tabset>
     </div>
 </div>

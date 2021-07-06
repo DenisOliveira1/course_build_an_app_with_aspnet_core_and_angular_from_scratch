@@ -9,6 +9,7 @@ namespace api.Repository.Interfaces
     {
         // UserModel
         void Update(UserModel user);
+        void Delete(UserModel user);
         Task<bool> SaveAllAsync();
         Task<IEnumerable<UserModel>> GetUsersAsync();
         Task<UserModel> GetUserByIdAsync(int id);
