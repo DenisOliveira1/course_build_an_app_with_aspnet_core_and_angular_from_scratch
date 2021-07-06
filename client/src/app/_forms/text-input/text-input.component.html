@@ -10,10 +10,10 @@
         <div *ngIf="ngControl.control.errors?.required && !isAVowel(label)" class="invalid-feedback">Please enter a {{label}}</div>
 
         <div *ngIf="ngControl.control.errors?.minlength" class="invalid-feedback">
-            Password must have at least {{ngControl.control.erros.minlength("requiredLength")}} characters
+            Password must have at least {{ngControl.control.errors.minlength["requiredLength"]}} characters
         </div>
         <div *ngIf="ngControl.control.errors?.maxlength" class="invalid-feedback">
-            Password must have at most {{ngControl.control.erros.maxlength("requiredLength")}} characters
+            Password must have at most {{ngControl.control.errors.maxlength["requiredLength"]}} characters
         </div>
 
         <div *ngIf="ngControl.control.errors?.isMatching" class="invalid-feedback">Confirm password must match password</div>       

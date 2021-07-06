@@ -4,7 +4,7 @@
 <div class="row" *ngIf="member">
     <div class="col-4">
         <div class="card">
-            <img src="{{member.photoUrl || './assens/user.png'}}" alt="{{member.knownAs}}" class="card-img-top img-thumbnail">
+            <img src="{{member.photoUrl || './assets/user.png'}}" alt="{{member.knownAs | titlecase}}" class="card-img-top img-thumbnail">
             <div class="card-body">
                 <strong>Location:</strong>
                 <p>{{member.city}}, {{member.country}}</p>
@@ -30,16 +30,16 @@
     <div class="col-8">
         <tabset class="member-tabset">
         
-            <tab heading="About {{member.knownAs}}">
+            <tab heading="About {{member.knownAs | titlecase}}">
                 <h4>Description</h4>
-                <p>{{member.introduction}}</p>
+                <p>{{member.introduction || "Empty"}}</p>
                 <h4>Looking for</h4>
-                <p>{{member.lookingFor}}</p>
+                <p>{{member.lookingFor || "Empty"}}</p>
             </tab>
     
             <tab heading="Interests">
-                <h4>Description</h4>
-                <p>{{member.interests}}</p>
+                <h4>Interests</h4>
+                <p>{{member.interests || "Empty"}}</p>
             </tab>
     
             <tab heading="Photos">

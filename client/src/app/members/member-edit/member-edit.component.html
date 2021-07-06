@@ -1,7 +1,7 @@
 <div class="row" *ngIf="member">
     
     <div class="col-4">
-        <h1>{{member.knownAs}}'s profile</h1>
+        <h1>{{member.knownAs | titlecase}}'s profile</h1>
     </div>
     <div class="col-8">
         <div class="alert alert-info" *ngIf="editForm.dirty">
@@ -11,7 +11,7 @@
 
     <div class="col-4">
         <div class="card">
-            <img src="{{member.photoUrl || './assets/user.png'}}" alt="{{member.knownAs}}" class="card-img-top img-thumbnail">
+            <img src="{{member.photoUrl || './assets/user.png'}}" alt="{{member.knownAs | titlecase}}" class="card-img-top img-thumbnail">
             <div class="card-body">
                 <strong>Location:</strong>
                 <p>{{member.city}}, {{member.country}}</p>
@@ -35,7 +35,7 @@
     <div class="col-8">
         <tabset class="member-tabset">
         
-            <tab heading="About {{member.knownAs}}">
+            <tab heading="About {{member.knownAs | titlecase}}">
                 <form #editForm="ngForm" (ngSubmit)="updateMember()" id="editForm">
                     <h4>Description</h4>
                     <textarea [(ngModel)]="member.introduction" name="introduction" rows="6" class="form-control"></textarea>

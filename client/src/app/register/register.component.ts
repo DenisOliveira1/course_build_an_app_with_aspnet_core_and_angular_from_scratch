@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AccountService } from '../_services/account.service';
 
@@ -12,33 +13,39 @@ export class RegisterComponent implements OnInit {
   // Anotação para enviar propriedades para um componente pai
   @Output() cancelRegisterToHomeComponent = new EventEmitter();
 
-  model: any = {};
   registerForm: FormGroup;
+  maxDate: Date;
+  validationErrors : string[] = [];
 
   constructor(
     private accountService : AccountService,
     private toastr : ToastrService,
-    private fb : FormBuilder
+    private fb : FormBuilder,
+    private router : Router
   ) { }
 
   ngOnInit(): void {
     this.initializeForm();
+    this.maxDate = new Date();
+    this.maxDate.setFullYear(this.maxDate.getFullYear() - 18);
   }
 
   initializeForm(){
-    this.registerForm = new FormGroup({
-      // Os nomes devem ser iguais aos presentes no formControlName do HTML
-      // Não precisa no NgModel mais
-      username: new FormControl('', [Validators.required, Validators.minLength(4)]),
-      password: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(8)]),
-      confirmPassword: new FormControl('', [Validators.required, this.matchValues("password")])
+    this.registerForm = this.fb.group({
+      username: ['',[Validators.required, Validators.minLength(2)]],
+      knownAs: ['',Validators.required],
+      dateOfBirth: ['',Validators.required],
+      city: ['',Validators.required],
+      country: ['',Validators.required],
+      gender: ['male'],
+      password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(8)]],
+      confirmPassword: ['', [Validators.required, this.matchValues("password")]]
     });
 
     // Quando o campo password for alterado as validações do compo confirmPassword serão verificadas novamente
     this.registerForm.controls.password.valueChanges.subscribe(() => {
       this.registerForm.controls.confirmPassword.updateValueAndValidity();
     })
-
   }
 
   matchValues(matchTo: string) : ValidatorFn {
@@ -48,21 +55,20 @@ export class RegisterComponent implements OnInit {
   }
 
   register(){
-    console.log(this.registerForm.value);
+    this.accountService.register(this.registerForm.value).subscribe(response => {
+      // Só entra aqui se o retorno não for um erro
+      this.toastr.success("Registered successfully");
+      this.router.navigateByUrl("/memebrs");
+    }, error => {
+        // Só entra aqui se o retorno for um erro
+        this.validationErrors = error;
 
-    // this.accountService.register(this.model).subscribe(response => {
-    //   // Só entra aqui se o retorno não for um erro
-    //   console.log(response);
-    //   this.toastr.success("Registered successfully");
-    //   this.cancel();
-    // }, error => {
-    //     // Só entra aqui se o retorno for um erro
-    //     if(Array.isArray(error)){
-    //       for (let line of error){
-    //         this.toastr.error(line);
-    //       }
-    //     }
-    // })
+        // if(Array.isArray(error)){
+        //   for (let line of error){
+        //     this.toastr.error(line);
+        //   }
+        // }
+    })
   }
 
   cancel(){

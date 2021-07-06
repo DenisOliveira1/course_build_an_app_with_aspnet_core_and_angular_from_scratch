@@ -3,6 +3,7 @@ import { FileUploader } from 'ng2-file-upload';
 import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs/operators';
 import { MemberModel } from 'src/app/_models/memberModel';
+import { PhotoModel } from 'src/app/_models/photoModel';
 import { UserModel } from 'src/app/_models/userModel';
 import { AccountService } from 'src/app/_services/account.service';
 import { MembersService } from 'src/app/_services/members.service';
@@ -58,8 +59,15 @@ export class PhotoEditorComponent implements OnInit {
 
     this.uploader.onSuccessItem =(item, response, status, headers) => {
       if (response){
-        const photo = JSON.parse(response);
+        const photo : PhotoModel = JSON.parse(response);
         this.member.photos.push(photo);
+        
+        if (photo.isMain){
+          this.user.photoUrl = photo.url;
+          this.member.photoUrl = photo.url;
+          this.accountService.setCurrentUser(this.user);
+        }
+
         this.toastr.success("The photos have been uploaded");
         
       }
