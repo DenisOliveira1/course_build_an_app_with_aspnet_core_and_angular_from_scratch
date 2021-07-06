@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { AccountService } from '../_services/account.service';
 
@@ -17,7 +17,8 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private accountService : AccountService,
-    private toastr : ToastrService
+    private toastr : ToastrService,
+    private fb : FormBuilder
   ) { }
 
   ngOnInit(): void {

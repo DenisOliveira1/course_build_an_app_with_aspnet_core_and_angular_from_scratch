@@ -2,7 +2,7 @@
 <form [formGroup]="registerForm" autocomplete="off">
     <h2 class="text-center txt-primary">Sign up</h2>
     <hr>
-    <div class="form-group">
+    <!-- <div class="form-group">
         <input 
             type="text" 
             class="form-control" 
@@ -10,7 +10,7 @@
             placeholder="Username" 
             [class.is-invalid]="registerForm.get('username').errors && registerForm.get('username').touched">
             <div *ngIf="registerForm.get('username').hasError('required')" class="invalid-feedback">Please enter an username</div>
-            <div *ngIf="registerForm.get('username').hasError('minlength')" class="invalid-feedback">Pasword must have at least 4 characters</div>
+            <div *ngIf="registerForm.get('username').hasError('minlength')" class="invalid-feedback">Password must have at least 4 characters</div>
     </div>
     <div class="form-group">
         <input 
@@ -21,8 +21,8 @@
             [class.is-invalid]="registerForm.get('password').errors && registerForm.get('password').touched"
             >
             <div *ngIf="registerForm.get('password').hasError('required')" class="invalid-feedback">Please enter a password</div>
-            <div *ngIf="registerForm.get('password').hasError('minlength')" class="invalid-feedback">Pasword must have at least 4 characters</div>
-            <div *ngIf="registerForm.get('password').hasError('maxlength')" class="invalid-feedback">Pasword must have at most 8 characters</div>
+            <div *ngIf="registerForm.get('password').hasError('minlength')" class="invalid-feedback">Password must have at least 4 characters</div>
+            <div *ngIf="registerForm.get('password').hasError('maxlength')" class="invalid-feedback">Password must have at most 8 characters</div>
     </div>
     <div class="form-group">
         <input 
@@ -33,8 +33,12 @@
             [class.is-invalid]="registerForm.get('confirmPassword').errors && registerForm.get('confirmPassword').touched"
             >
             <div *ngIf="registerForm.get('confirmPassword').hasError('required')" class="invalid-feedback">Please enter a confirm password</div>
-            <div *ngIf="registerForm.get('confirmPassword').hasError('isMatching')" class="invalid-feedback">Confirm pasword mustmatch password</div>
-    </div>
+            <div *ngIf="registerForm.get('confirmPassword').hasError('isMatching')" class="invalid-feedback">Confirm password must match password</div>
+    </div> -->
+    <app-text-input [formControl]="registerForm.controls['username']" [label]="'username'"></app-text-input>
+    <app-text-input [formControl]="registerForm.controls['password']" [label]="'password'" [type]="'password'"></app-text-input>
+    <app-text-input [formControl]="registerForm.controls['confirmPassword']" [label]="'confirmPassword'" [type]="'password'"></app-text-input>
+
     <div class="form-group text-center">
         <button class="btn btn-success mr-2" type="submit" (click)="register()">Register</button>
         <button class="btn btn-default mr-2" (click)="cancel()">Cancel</button>
