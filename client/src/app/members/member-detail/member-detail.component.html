@@ -6,8 +6,10 @@
         <div class="card">
             <img src="{{member.photoUrl || './assets/user.png'}}" alt="{{member.knownAs | titlecase}}" class="card-img-top img-thumbnail">
             <div class="card-body">
+                <p>{{member.gender | titlecase}} </p>
+
                 <strong>Location:</strong>
-                <p>{{member.city}}, {{member.country}}</p>
+                <p>{{member.city | titlecase}}, {{member.country | titlecase}}</p>
 
                 <strong>Age:</strong>
                 <p>{{member.age}}</p>

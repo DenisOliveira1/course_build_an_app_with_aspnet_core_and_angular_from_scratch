@@ -50,8 +50,10 @@ export class MembersService {
     return this.httpClient.put(this.baseUrl + "users/", member).pipe(
       map(() => {
         // É necessário atualizar o array de membros alocados na memória
-        const index = this.members.indexOf(member);
-        this.members[index] = member;
+        const index = this.members?.indexOf(member);
+        if (index){
+          this.members[index] = member;
+        }
       })
     );
   }

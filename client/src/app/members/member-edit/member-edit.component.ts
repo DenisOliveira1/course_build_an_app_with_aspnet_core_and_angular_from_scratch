@@ -27,6 +27,9 @@ export class MemberEditComponent implements OnInit {
 
   member : MemberModel;
   user : UserModel;
+  cityDisplay: string;
+  countryDisplay : string;
+  genderDisplay : string;
 
   constructor(
     private accountService : AccountService,
@@ -46,6 +49,9 @@ export class MemberEditComponent implements OnInit {
   loadMember(){
     this.memberService.getMember(this.user.username).subscribe(member => {
       this.member = member;
+      this.genderDisplay = member.gender;
+      this.cityDisplay = member.city;
+      this.countryDisplay = member.country;
     })
   }
 
@@ -55,6 +61,9 @@ export class MemberEditComponent implements OnInit {
       // Mesmo apagando as alterações feitas em um form o status dirty FunctionCall
       // Após salvar o form o status do form é redefinido e o dirty some, desativando o botão e o alerta novamente
       this.editForm.reset(this.member);
+      this.genderDisplay = this.member.gender;
+      this.cityDisplay = this.member.city;
+      this.countryDisplay = this.member.country;
     })
   }
 
