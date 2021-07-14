@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using api.Context;
 using api.DTOs;
+using api.Helpers;
 using api.Models;
 using api.Repository.Interfaces;
 using AutoMapper;
@@ -60,11 +62,26 @@ namespace api.Repository
         }
         
         // MemberDto
-         public async Task<IEnumerable<MemberDto>> GetMembersAsync()
+         public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
         {
-            return await _context.Users
+            var query = _context.Users
                 .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
-                .ToListAsync();
+                .AsNoTracking();
+                
+            query = query.Where(x => x.Username != userParams.Username);
+            query = query.Where(x => x.Gender == userParams.Gender);
+
+            var minDate = DateTime.Today.AddYears(-userParams.MaxAge -1); // hoje - 150 - um dia
+            var maxDate = DateTime.Today.AddYears(-userParams.MinAge); // hoje - 18
+        
+            query = query.Where(x => x.DateOfBirth >= minDate && x.DateOfBirth <= maxDate);
+
+            query = userParams.OrderBy switch{
+                "created" => query.OrderByDescending(x => x.Created),
+                _ => query.OrderByDescending(x => x.LastActive),
+            };
+                
+            return await PagedList<MemberDto>.CreateAsync(query, userParams.PageNumber, userParams.PageSize);
         }
 
         public async Task<MemberDto> GetMembersByUsernameAsync(string username)

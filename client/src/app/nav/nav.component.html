@@ -21,7 +21,7 @@
             </li>
         </ul>
         <a routerLink="/member/edit">
-            <img *ngIf="(accountService.currentUser$ | async) as user" src="{{user.photoUrl || './assets/user.png'}}" alt="{{user.username | titlecase}}" class="user-img mr-3">
+            <img *ngIf="(accountService.currentUser$ | async) as user" src="{{user.photoUrl || './assets/user.png'}}" alt="{{user.knowAs | titlecase}}" class="user-img mr-3">
         </a>
         <div *ngIf="(accountService.currentUser$ | async) as user" class="dropdown" dropdown>
             <a class="dropdown-toggle text-light" dropdownToggle>{{user.username | titlecase}}</a>

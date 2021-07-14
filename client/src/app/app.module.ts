@@ -50,7 +50,7 @@ import { DateInputComponent } from './_forms/date-input/date-input.component';
   // Componentes importados
   imports: [
     BrowserModule,
-    AppRoutingModule,
+  AppRoutingModule,
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,

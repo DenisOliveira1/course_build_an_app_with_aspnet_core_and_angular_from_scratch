@@ -28,8 +28,9 @@ namespace api.Extentions
 
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly); 
             services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
-            
-            
+
+            services.AddScoped<LogUserActivity>();
+               
             return services;
         }
             

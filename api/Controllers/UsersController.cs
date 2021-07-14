@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using api.Context;
 using api.DTOs;
 using api.Extensions;
+using api.Helpers;
 using api.Models;
 using api.Repository.Interfaces;
 using api.Services.Interfaces;
@@ -35,9 +36,21 @@ namespace api.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
+        // Quando o parametro está na query de forma pageNumber=x, deve-se adicionar o [FromQuery], pois ele já é identificado por causa de [ApiController]
+        // Quando o parametro está na query de forma {pageNumber}, não precisa adicionar o [FromQuery]
+        public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery] UserParams userParams)
         {
-            var users = await _userRepository.GetMembersAsync();
+
+            userParams.Username = User.GetUsername();
+            var user = await _userRepository.GetUserByUsernameAsync (userParams.Username);
+
+            if (string.IsNullOrEmpty(userParams.Gender)){
+                userParams.Gender = user.Gender == "male" ? "female" : "male";
+            }
+
+            var users = await _userRepository.GetMembersAsync(userParams);
+            Response.AddPaginationHeader(users.CurrentPage, users.TotalPages, users.PageSize, users.TotalCount);
+
             return Ok(users);
         }
 

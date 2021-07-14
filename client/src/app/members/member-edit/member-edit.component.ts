@@ -58,8 +58,15 @@ export class MemberEditComponent implements OnInit {
   updateMember(){
     this.memberService.updateMember(this.member).subscribe(() => {
       this.toastr.success("Profile updated successfully");
-      // Mesmo apagando as alterações feitas em um form o status dirty FunctionCall
+      // Mesmo apagando as alterações feitas em um form o status dirty fica true
       // Após salvar o form o status do form é redefinido e o dirty some, desativando o botão e o alerta novamente
+
+      // Atualiza gender do usuário logado
+      this.accountService.currentUser$.pipe(take(1)).subscribe(currentUser => {
+        currentUser.gender = this.member.gender;
+        this.accountService.setCurrentUser(currentUser);
+      })
+
       this.editForm.reset(this.member);
       this.genderDisplay = this.member.gender;
       this.cityDisplay = this.member.city;

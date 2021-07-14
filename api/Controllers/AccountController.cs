@@ -49,7 +49,8 @@ namespace api.Controllers
             var userDto = new UserDto{
                 username = user.UserName,
                 Token = _tokenService.CreateToken(user),
-                KnowAs = user.KnownAs
+                KnowAs = user.KnownAs,
+                Gender = user.Gender
             };
             
             return userDto;
@@ -77,7 +78,8 @@ namespace api.Controllers
                 username = user.UserName,
                 Token = _tokenService.CreateToken(user),
                 PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
-                KnowAs = user.KnownAs
+                KnowAs = user.KnownAs,
+                Gender = user.Gender
             };
   
             return userDto;
