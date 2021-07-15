@@ -11,6 +11,9 @@ namespace api.Models
         public bool IsMain { get; set; }
         public int MyProperty { get; set; }
         public string PublicId { get; set; }
+
+
+        // User, 1-N
         public UserModel User { get; set; }
         public int UserId { get; set; }
     }

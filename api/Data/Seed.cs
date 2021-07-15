@@ -13,6 +13,7 @@ namespace api.Data
     {
         public static async Task SeedUsers(DataContext context)
         {
+            // Sai caso a tabela Users tenha alguma inserção
             if(await context.Users.AnyAsync()) return;
 
             var userData = await System.IO.File.ReadAllTextAsync("Data/UserSeedData.json");

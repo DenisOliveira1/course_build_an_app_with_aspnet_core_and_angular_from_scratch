@@ -1,31 +1,37 @@
+.NET ------------------------------------------------------------
+
 Criar projeto .NET:
     dotnet new sln
     dotnet new webapi -o api
     dotnet sln add api
 
-Criar projeto Angular:
-    npm install -g @angular/cli
-    ng new client
-
 Run:
     dotnet watch run
     npm start
 
-Refazer tabelas:
-    dotnet ef database drop
-    dotnet ef database update
+Migrations ------------------------------------------------------------
 
-Gerar migration:
+Criar migration:
     dotnet ef migrations add ExtendedUserEntity
+    dotnet ef migrations add LikeEntityAdded
+    dotnet ef database update (implementa até última migration, mesmo efeito de rodar a api)
 
-Desfaz migration m:
-    dotnet ef migrations revert 'nome m-1'
+Desfazer migration m:
+    dotnet ef database update 'nome m-1'
 
 Remove último migration:
     dotnet ef migrations remove
 
-Atualiza tabelas da database conforme migrations:
-    dotnet ef migrations remove
+Recriar as tabelas:
+    dotnet ef database drop
+    dotnet ef database update (implementa até última migration, mesmo efeito de rodar a api)
+    
+Angular ------------------------------------------------------------
+
+Criar projeto Angular:
+    npm install -g @angular/cli
+    ng new client
+
 
 Angular Component:
     ng g c nav --skip-tests

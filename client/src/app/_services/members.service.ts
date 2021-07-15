@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { ObserveOnOperator } from 'rxjs/internal/operators/observeOn';
 import { map, take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { LikeParams } from '../_models/likeParams';
 import { MemberModel } from '../_models/memberModel';
 import { PaginatedResult } from '../_models/pagination';
 import { UserModel } from '../_models/userModel';
@@ -18,6 +19,7 @@ export class MembersService {
   baseUrl = environment.apiUrl;
   // Já que os services são com singletons eles são um bom meio de armazenar dados
   memberCache = new Map();
+  likeParams : LikeParams;
   userParams : UserParams; // Essa classe precisa do user logado também
   user : UserModel;
 
@@ -29,22 +31,9 @@ export class MembersService {
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => {
       this.user = user;
       this.userParams = new UserParams(user);
+      this.likeParams = new LikeParams();
     })
   }
-
-  getUserParams(){
-    return this.userParams;
-  }
-
-  setUserParams(params : UserParams){
-    this.userParams = params;
-  }
-
-  resetUserParams(){
-    this.userParams = new UserParams(this.user);
-    return this.userParams;
-  }
-
 
   // A função recebe um objeto model com parametros e gera o outro objeto httpParams para enviar junto a requisição
   getMembers(userParams : UserParams){
@@ -53,13 +42,14 @@ export class MembersService {
     if (response) return of (response);
 
     let params = this.getPaginationHeaders(userParams.pageNumber, userParams.pageSize)
-    
+
     params = params.append('minAge', userParams.minAge.toString());
     params = params.append('maxAge', userParams.maxAge.toString());
     params = params.append('gender', userParams.gender);
     params = params.append('orderBy', userParams.orderBy);
 
-    // Um objeto params no método get, vai no endereço na rota ?minAge=x, em métodos como post e put, vai no body
+    // Um objeto params do tipo HttpParams no método get, vai no endereço na rota ?minAge=x
+    // Em métodos como post e put não é um objeto do tipo HttpParams e seu conteúdo vai no body
     // Com {observe: "response", params} você tem acesso ao body e o header
     // Com {params}  você tem acesso ao body direto
     return this.getPaginatedResults<MemberModel[]>(this.baseUrl + "users", params).pipe(
@@ -123,6 +113,45 @@ export class MembersService {
         return paginatedResult;
       })
     );
+  }
+  
+  getUserParams(){
+    return this.userParams;
+  }
+
+  setUserParams(params : UserParams){
+    this.userParams = params;
+  }
+
+  resetUserParams(){
+    this.userParams = new UserParams(this.user);
+    return this.userParams;
+  }
+
+  getLikeParams(){
+    return this.likeParams;
+  }
+
+  setLikeParams(params : LikeParams){
+    this.likeParams = params;
+  }
+
+  resetLikeParams(){
+    this.likeParams = new LikeParams();
+    return this.likeParams;
+  }
+
+  addLike(username: string){
+    return this.httpClient.post(this.baseUrl + "likes/" + username, {});
+  }
+
+  getLikes(likeParams : LikeParams){
+
+    let params = this.getPaginationHeaders(likeParams.pageNumber, likeParams.pageSize);
+
+    params = params.append('predicate', likeParams.predicate);
+
+    return this.getPaginatedResults<Partial<MemberModel[]>>(this.baseUrl + "likes", params);
   }
 
 }
