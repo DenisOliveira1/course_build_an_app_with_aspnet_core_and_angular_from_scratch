@@ -9,7 +9,7 @@ using api.Context;
 namespace api.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210714195717_LikeEntityAdded")]
+    [Migration("20210715193441_LikeEntityAdded")]
     partial class LikeEntityAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -46,13 +46,16 @@ namespace api.Data.Migrations
                     b.ToTable("Photos");
                 });
 
-            modelBuilder.Entity("api.Models.UserLike", b =>
+            modelBuilder.Entity("api.Models.UserLikeModel", b =>
                 {
                     b.Property<int>("SourceUserId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("LikedUserId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("DateLike")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("SourceUserId", "LikedUserId");
 
@@ -122,7 +125,7 @@ namespace api.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("api.Models.UserLike", b =>
+            modelBuilder.Entity("api.Models.UserLikeModel", b =>
                 {
                     b.HasOne("api.Models.UserModel", "LikedUser")
                         .WithMany("LikedByUsers")

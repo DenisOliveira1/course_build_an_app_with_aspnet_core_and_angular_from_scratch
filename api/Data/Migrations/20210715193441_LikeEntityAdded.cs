@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace api.Data.Migrations
 {
@@ -11,7 +12,8 @@ namespace api.Data.Migrations
                 columns: table => new
                 {
                     SourceUserId = table.Column<int>(type: "INTEGER", nullable: false),
-                    LikedUserId = table.Column<int>(type: "INTEGER", nullable: false)
+                    LikedUserId = table.Column<int>(type: "INTEGER", nullable: false),
+                    DateLike = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {

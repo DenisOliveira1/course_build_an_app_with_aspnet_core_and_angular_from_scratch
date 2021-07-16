@@ -1,3 +1,5 @@
+using System;
+
 namespace api.Models
 {
     public class UserLikeModel
@@ -7,6 +9,8 @@ namespace api.Models
         
         public UserModel LikedUser { get; set; }
         public int LikedUserId { get; set; }
+
+        public DateTime DateLike { get; set; } = DateTime.Now;
 
     }
 }

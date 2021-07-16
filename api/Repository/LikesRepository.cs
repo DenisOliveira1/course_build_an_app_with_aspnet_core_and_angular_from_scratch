@@ -53,7 +53,7 @@ namespace api.Repository
                 Age = user.DateOfBirth.CalculateAge(),
                 PhotoUrl = user.Photos.FirstOrDefault(p => p.IsMain).Url,
                 City = user.City,
-                UserId = user.Id
+                UserId = user.Id,
             });
 
             return await PagedList<LikeDto>.CreateAsync(usersQuery, likesParams.PageNumber, likesParams.PageSize);
