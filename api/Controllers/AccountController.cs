@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using api.Context;
 using api.DTOs;
+using api.Helpers;
 using api.Models;
 using api.Services.Interfaces;
 using AutoMapper;
@@ -37,11 +38,11 @@ namespace api.Controllers
 
             var user = _mapper.Map<UserModel>(registerDto);
 
-            using var hmac = new HMACSHA512();  
+            var hasher = new Hasher();  
 
             user.UserName = registerDto.Username.ToLower();
-            user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password));
-            user.PasswordSalt = hmac.Key;
+            user.PasswordHash =  hasher.ComputePasswordHash(registerDto.Password);
+            user.PasswordSalt = hasher.GetPasswordSalt();
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
@@ -65,8 +66,8 @@ namespace api.Controllers
 
             if (user == null) return Unauthorized("Invalid username!");
 
-            using var hmac = new HMACSHA512(user.PasswordSalt);  
-            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
+            var hasher = new Hasher(user.PasswordSalt);  
+            var computedHash = hasher.ComputePasswordHash(loginDto.Password);
 
             for(int i=0; i < computedHash.Length; i++){
                  if (computedHash[i] != user.PasswordHash[i]){
