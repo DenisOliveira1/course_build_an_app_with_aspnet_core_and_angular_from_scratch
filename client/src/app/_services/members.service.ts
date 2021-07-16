@@ -28,11 +28,7 @@ export class MembersService {
     private httpClient : HttpClient,
     private accountService: AccountService
   ) { 
-    this.accountService.currentUser$.pipe(take(1)).subscribe(user => {
-      this.user = user;
-      this.userParams = new UserParams(user);
-      this.likeParams = new LikeParams();
-    })
+    this.updateCurrentUser();
   }
 
   // A função recebe um objeto model com parametros e gera o outro objeto httpParams para enviar junto a requisição
@@ -113,6 +109,14 @@ export class MembersService {
         return paginatedResult;
       })
     );
+  }
+
+ updateCurrentUser(){
+    this.accountService.currentUser$.pipe(take(1)).subscribe(user => {
+      this.user = user;
+      this.userParams = new UserParams(user);
+      this.likeParams = new LikeParams();
+    })
   }
   
   getUserParams(){

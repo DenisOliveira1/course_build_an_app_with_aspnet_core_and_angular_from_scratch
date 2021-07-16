@@ -48,9 +48,6 @@ Angular Module:
 Angular Interceptor:
     ng g interceptor error --skip-tests
 
-
-
-
 // Anotação para receber propriedades para um componente pai
 @Input() member: MemberModel;
 
@@ -59,3 +56,10 @@ Angular Interceptor:
 
 // Anotação para referenciar o formulário dentro do componente
 @ViewChild("editForm") editForm: NgForm;
+
+Git ------------------------------------------------------------
+
+Deletar push na cloud:
+    git rebase -i HEAD~2
+    Apagada segunda linha do arquivo que vai abrir e digita :wq e enter
+    git push --force
