@@ -20,49 +20,53 @@
 
 <div [hidden]="loading" class="row" *ngIf="messages.length > 0">
     <table class="table table-hover" style="cursor: pointer">
-        <tr>
-            <th style="width: 40%">Message</th>
-            <th style="width: 20%">{{messageParams.container !== 'outbox'? 'From' : 'To'}}</th>
-            <th style="width: 20%">{{messageParams.container !== 'outbox'? 'Received' : 'Sent'}}</th>
-            <th style="width: 20%"></th>
-        </tr>
-        <tr *ngFor="let message of messages" 
-            routerLink="{{messageParams.container === 'outbox' 
-                        ? '/members/' + message.recipientUsername
-                        : '/members/' + message.senderUsername}}" [queryParams]={tab:3}>
-        
-            <td>{{message.content}}</td>
-
-            <td>
-
-                <div *ngIf="messageParams.container === 'outbox'">
-                    <img 
-                        class="img-circle rounded-circle mr-2"
-                        src="{{message.recipientPhotoUrl || './assets/user.png'}}" 
-                        alt="{{message.recipientKnownAs}}">
-                    <strong>{{message.recipientKnownAs | titlecase}}</strong>
-                </div>
-                <div *ngIf="messageParams.container !== 'outbox'">
-                    <img 
-                        class="img-circle rounded-circle mr-2"
-                        src="{{message.senderPhotoUrl || './assets/user.png'}}" 
-                        alt="{{message.senderKnownAs}}">
-                    <strong>{{message.senderKnownAs | titlecase}}</strong>
-                </div>
-
-            </td>
-
-            <td>{{message.messageSent | timeago}}</td>
-
-            <td>
-                <!-- Sem essa div o botão fica bugado por causa da classe table no elemento table -->
-                <div>
-                    <!-- (click)="$event.stopPropagation()" evita que o routerLink seja ativado ao clicar no botão -->
-                    <button class="btn btn-danger"  (click)="$event.stopPropagation()" (click)="deleteMessage(message.id)">Delete</button>
-                </div>
-            </td>
+        <thead>
+            <tr>
+                <th style="width: 40%">Message</th>
+                <th style="width: 20%">{{messageParams.container !== 'outbox'? 'From' : 'To'}}</th>
+                <th style="width: 20%">{{messageParams.container !== 'outbox'? 'Received' : 'Sent'}}</th>
+                <th style="width: 20%"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let message of messages" 
+                routerLink="{{messageParams.container === 'outbox' 
+                            ? '/members/' + message.recipientUsername
+                            : '/members/' + message.senderUsername}}" [queryParams]={tab:3}>
             
-        </tr>
+                <td>{{message.content}}</td>
+
+                <td>
+
+                    <div *ngIf="messageParams.container === 'outbox'">
+                        <img 
+                            class="img-circle rounded-circle mr-2"
+                            src="{{message.recipientPhotoUrl || './assets/user.png'}}" 
+                            alt="{{message.recipientKnownAs}}">
+                        <strong>{{message.recipientKnownAs | titlecase}}</strong>
+                    </div>
+                    <div *ngIf="messageParams.container !== 'outbox'">
+                        <img 
+                            class="img-circle rounded-circle mr-2"
+                            src="{{message.senderPhotoUrl || './assets/user.png'}}" 
+                            alt="{{message.senderKnownAs}}">
+                        <strong>{{message.senderKnownAs | titlecase}}</strong>
+                    </div>
+
+                </td>
+
+                <td>{{message.messageSent | timeago}}</td>
+
+                <td>
+                    <!-- Sem essa div o botão fica bugado por causa da classe table no elemento table -->
+                    <div>
+                        <!-- (click)="$event.stopPropagation()" evita que o routerLink seja ativado ao clicar no botão -->
+                        <button class="btn btn-danger"  (click)="$event.stopPropagation()" (click)="deleteMessage(message.id)">Delete</button>
+                    </div>
+                </td>
+                
+            </tr>
+        </tbody>
     </table>
     
 
