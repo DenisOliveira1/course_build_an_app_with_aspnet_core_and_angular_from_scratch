@@ -4,12 +4,15 @@ import { Observable, of } from 'rxjs';
 import { ObserveOnOperator } from 'rxjs/internal/operators/observeOn';
 import { map, take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { LikeParams } from '../_models/likeParams';
+import { LikeParams } from '../_models/params/likeParams';
 import { MemberModel } from '../_models/memberModel';
-import { PaginatedResult } from '../_models/pagination';
+import { PaginatedResult } from '../_models/params/pagination';
 import { UserModel } from '../_models/userModel';
-import { UserParams } from '../_models/userParams';
+import { UserParams } from '../_models/params/userParams';
 import { AccountService } from './account.service';
+import { getPaginatedResults, getPaginationHeaders } from './paginationHelper';
+import { MessageService } from './message.service';
+import { MessageParams } from '../_models/params/messageParams';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +29,8 @@ export class MembersService {
   //Ao invejatar outro service em um service não podemos fazer ao contrário também, isso causaria uma referencia circular
   constructor(
     private httpClient : HttpClient,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private messageService: MessageService,
   ) { 
     this.updateCurrentUser();
   }
@@ -37,7 +41,7 @@ export class MembersService {
     var response = this.memberCache.get(Object.values(userParams).join("-"));
     if (response) return of (response);
 
-    let params = this.getPaginationHeaders(userParams.pageNumber, userParams.pageSize)
+    let params = getPaginationHeaders(userParams.pageNumber, userParams.pageSize)
 
     params = params.append('minAge', userParams.minAge.toString());
     params = params.append('maxAge', userParams.maxAge.toString());
@@ -48,7 +52,7 @@ export class MembersService {
     // Em métodos como post e put não é um objeto do tipo HttpParams e seu conteúdo vai no body
     // Com {observe: "response", params} você tem acesso ao body e o header
     // Com {params}  você tem acesso ao body direto
-    return this.getPaginatedResults<MemberModel[]>(this.baseUrl + "users", params).pipe(
+    return getPaginatedResults<MemberModel[]>(this.baseUrl + "users", params, this.httpClient).pipe(
       map(response => {
         this.memberCache.set(Object.values(userParams).join("-"), response);
         return response
@@ -86,39 +90,29 @@ export class MembersService {
     return this.httpClient.delete(this.baseUrl + "users/delete-user/", {});
   }
 
-  private getPaginationHeaders(pageNumber: number, pageSize : number) { 
-
-    let params = new HttpParams();
-
-    params = params.append('pageNumber', pageNumber.toString());
-    params = params.append('pageSize', pageSize.toString());
-
-    return params;
-  }
-
-  private getPaginatedResults<T>(url: string, params: HttpParams) {
-
-    const paginatedResult : PaginatedResult<T> = new PaginatedResult<T>();
-
-    return this.httpClient.get<T>(url, { observe: "response", params }).pipe(
-      map(response => {
-        paginatedResult.result = response.body;
-        if (response.headers.get("Pagination")) {
-          paginatedResult.pagination = JSON.parse(response.headers.get("Pagination"));
-        }
-        return paginatedResult;
-      })
-    );
-  }
-
  updateCurrentUser(){
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => {
       this.user = user;
       this.userParams = new UserParams(user);
       this.likeParams = new LikeParams();
+      this.messageService.messageParams = new MessageParams();
     })
   }
   
+  getLikes(likeParams : LikeParams){
+
+    let params = getPaginationHeaders(likeParams.pageNumber, likeParams.pageSize);
+
+    params = params.append('predicate', likeParams.predicate);
+
+    return getPaginatedResults<Partial<MemberModel[]>>(this.baseUrl + "likes", params, this.httpClient);
+  }
+
+  addLike(username: string){
+    return this.httpClient.post(this.baseUrl + "likes/" + username, {});
+  }
+
+  // User  Params
   getUserParams(){
     return this.userParams;
   }
@@ -132,6 +126,7 @@ export class MembersService {
     return this.userParams;
   }
 
+  // Like Params
   getLikeParams(){
     return this.likeParams;
   }
@@ -143,19 +138,6 @@ export class MembersService {
   resetLikeParams(){
     this.likeParams = new LikeParams();
     return this.likeParams;
-  }
-
-  addLike(username: string){
-    return this.httpClient.post(this.baseUrl + "likes/" + username, {});
-  }
-
-  getLikes(likeParams : LikeParams){
-
-    let params = this.getPaginationHeaders(likeParams.pageNumber, likeParams.pageSize);
-
-    params = params.append('predicate', likeParams.predicate);
-
-    return this.getPaginatedResults<Partial<MemberModel[]>>(this.baseUrl + "likes", params);
   }
 
 }

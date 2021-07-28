@@ -13,7 +13,6 @@ Migrations ------------------------------------------------------------
 
 Criar migration:
     dotnet ef migrations add ExtendedUserEntity
-    dotnet ef migrations add LikeEntityAdded
     dotnet ef database update (implementa até última migration, mesmo efeito de rodar a api)
 
 Desfazer migration m:
@@ -47,6 +46,9 @@ Angular Module:
 
 Angular Interceptor:
     ng g interceptor error --skip-tests
+
+Angular Interceptor:
+    ng g r member-detail --skip-tests
 
 // Anotação para receber propriedades para um componente pai
 @Input() member: MemberModel;

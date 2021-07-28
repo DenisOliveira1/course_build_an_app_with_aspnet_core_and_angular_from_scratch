@@ -1,4 +1,4 @@
-import { UserModel } from "./userModel";
+import { UserModel } from "../userModel";
 
 export class UserParams {
     gender : string;

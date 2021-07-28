@@ -1,6 +1,3 @@
-<!-- Necessário para os icones -->
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-
 <div class="card mb-4">
     <div class="card-img-wrapper">
         <img src="{{member.photoUrl || './assets/user.png'}}" alt="{{member.knownAs | titlecase}}" class="card-img-top">
@@ -17,7 +14,7 @@
             </li>
             <li class="list-inline-item">
                 <button class="btn btn-primary">
-                    <i class="fa fa-envelope"></i>
+                    <i class="fa fa-envelope" routerLink="/members/{{member.username}}" [queryParams]={tab:3}></i>
                 </button>
             </li>
         </ul>

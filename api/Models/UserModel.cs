@@ -24,19 +24,21 @@ namespace api.Models
 
         // https://docs.microsoft.com/pt-br/ef/core/modeling/relationships?tabs=fluent-api%2Cfluent-api-simple-key%2Csimple-key#other-relationship-patterns
 
-        // Photos, N-1
-        // A, entidade com N, tem um array de B
-        // B, entidade com 1, tem uma instancia e um id de A
+        // 1-N
+        // A, entidade com 1, tem um array de B
+        // B, entidade com N, tem uma instancia e um id de A
         public ICollection<PhotoModel> Photos { get; set; }    
 
-        // User, N-N
-        // A e B, entidades com N, tem um array de Z
+        // N-N
+        // A e B, entidades com N, tem um array de Z (Nesse caso A e B são a mesma classe, logo ela recebe 2 arrays)
         // Z e uma nova classe gerada apartir dessa relação e tem uma instancia e um id de A e uma instancia e um id de B
         // Quando a PK é composta precisa configurar no OnModelCreating no DataContext
         public ICollection<UserLikeModel> LikedByUsers { get; set; }   
-
-        // User, N-N
         public ICollection<UserLikeModel> LikedUsers { get; set; }   
+
+        // N-N
+        public ICollection<MessageModel> MessagesSent { get; set; }
+        public ICollection<MessageModel> MessagesReceived { get; set; }
 
  
         // O nome deve ser "Get" + nome doparâmetro para o automapper poder preencher automaticamente o valor da variável após o mapping

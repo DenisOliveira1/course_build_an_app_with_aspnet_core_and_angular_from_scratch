@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { LikeParams } from '../_models/likeParams';
+import { LikeParams } from '../_models/params/likeParams';
 import { MemberModel } from '../_models/memberModel';
-import { Pagination } from '../_models/pagination';
+import { Pagination } from '../_models/params/pagination';
 import { MembersService } from '../_services/members.service';
 
 @Component({
-  selector: 'app-lists',
-  templateUrl: './lists.component.html',
-  styleUrls: ['./lists.component.css']
+  selector: 'app-matches',
+  templateUrl: './matches.component.html',
+  styleUrls: ['./matches.component.css']
 })
-export class ListsComponent implements OnInit {
+export class MatchesComponent implements OnInit {
 
   // Partial torna todas as propriedades do objeto opcionais
   members : Partial<MemberModel[]>;
