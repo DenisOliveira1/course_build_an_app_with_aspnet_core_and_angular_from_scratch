@@ -13,6 +13,7 @@ import { AccountService } from './account.service';
 import { getPaginatedResults, getPaginationHeaders } from './paginationHelper';
 import { MessageService } from './message.service';
 import { MessageParams } from '../_models/params/messageParams';
+import { RolesParams } from '../_models/params/rolesParams';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,7 @@ export class MembersService {
   memberCache = new Map();
   likeParams : LikeParams;
   userParams : UserParams; // Essa classe precisa do user logado também
+  rolesParams : RolesParams;
   user : UserModel;
 
   //Ao invejatar outro service em um service não podemos fazer ao contrário também, isso causaria uma referencia circular
@@ -95,6 +97,7 @@ export class MembersService {
       this.user = user;
       this.userParams = new UserParams(user);
       this.likeParams = new LikeParams();
+      this.rolesParams = new RolesParams();
       this.messageService.messageParams = new MessageParams();
     })
   }
@@ -138,6 +141,20 @@ export class MembersService {
   resetLikeParams(){
     this.likeParams = new LikeParams();
     return this.likeParams;
+  }
+
+  // Roles Params
+  getRolesParams(){
+    return this.rolesParams;
+  }
+
+  setRolesParams(params : RolesParams){
+    this.rolesParams = params;
+  }
+
+  resetRolesParams(){
+    this.rolesParams = new RolesParams();
+    return this.rolesParams;
   }
 
 }

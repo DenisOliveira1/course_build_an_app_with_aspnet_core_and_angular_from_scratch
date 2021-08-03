@@ -7,6 +7,7 @@ using api.Context;
 using api.DTOs;
 using api.Extensions;
 using api.Helpers;
+using api.Helpers.Params;
 using api.Models;
 using api.Repository.Interfaces;
 using api.Services.Interfaces;
@@ -34,7 +35,7 @@ namespace api.Controllers
             _userRepository = userRepository;
         }
 
-
+        // [Authorize(Roles = "Admin")] // Teste
         [HttpGet]
         // Quando o parametro está na query de forma pageNumber=x, deve-se adicionar o [FromQuery], pois ele já é identificado por causa de [ApiController]
         // Quando o parametro está na query de forma {pageNumber}, não precisa adicionar o [FromQuery]

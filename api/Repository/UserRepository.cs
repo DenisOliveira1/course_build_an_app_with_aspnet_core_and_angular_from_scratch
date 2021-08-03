@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using api.Context;
 using api.DTOs;
 using api.Helpers;
+using api.Helpers.Params;
 using api.Models;
 using api.Repository.Interfaces;
 using AutoMapper;

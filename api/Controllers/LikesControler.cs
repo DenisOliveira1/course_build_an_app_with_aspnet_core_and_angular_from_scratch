@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using api.DTOs;
 using api.Extensions;
 using api.Helpers;
+using api.Helpers.Params;
 using api.Models;
 using api.Repository.Interfaces;
 using Microsoft.AspNetCore.Authorization;

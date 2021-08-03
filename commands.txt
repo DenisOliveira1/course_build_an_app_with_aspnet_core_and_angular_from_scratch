@@ -50,6 +50,9 @@ Angular Interceptor:
 Angular Interceptor:
     ng g r member-detail --skip-tests
 
+Angular Directives:
+    ng g d has-role --skip-tests
+
 // Anotação para receber propriedades para um componente pai
 @Input() member: MemberModel;
 

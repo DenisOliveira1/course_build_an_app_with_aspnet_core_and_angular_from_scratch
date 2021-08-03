@@ -1,4 +1,4 @@
-namespace api.Helpers
+namespace api.Helpers.Params
 {
     public class PaginationParams
     {
