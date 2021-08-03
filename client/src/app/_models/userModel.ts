@@ -2,7 +2,7 @@ export interface UserModel {
     username: string;
     token: string;
     photoUrl: string;
-    knowAs: String;
+    knownAs: String;
     gender: String;
     roles: string[];
 }

@@ -32,6 +32,7 @@ namespace api.Controllers
                             .Select(u => new RolesDto{
                                 Id = u.Id,
                                 Username = u.UserName,
+                                KnownAs = u.KnownAs,
                                 Roles = u.UserRoles.Select(r => r.Role.Name).ToList()
                             })
                             .AsQueryable();

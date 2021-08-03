@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ToastrService } from 'ngx-toastr';
 import { RolesModalComponent } from 'src/app/_modals/roles-modal/roles-modal.component';
 import { Pagination } from 'src/app/_models/params/pagination';
 import { RolesParams } from 'src/app/_models/params/rolesParams';
@@ -22,7 +23,8 @@ export class UserManagementComponent implements OnInit {
   constructor(
     private adminService: AdminService,
     private memberService: MembersService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private toastr: ToastrService
   ) { 
     this.rolesParams = this.memberService.getRolesParams();
   }
@@ -55,22 +57,61 @@ export class UserManagementComponent implements OnInit {
     this.getUserWithRoles();
   }
 
-  openRolesModal(){
+  openRolesModal(user: UserModel){
 
     // Maneira 1 de passar parametros ao modal
-    const initialState = {
-      list: [
-        'Open a modal with component',
-        'Pass your data',
-        'Do something else',
-        '...'
-      ],
-      title: 'Modal with component'
+    const config = {
+      class: 'modal-dialog-centered',
+      initialState: {
+        user,
+        roles: this.getRowsArray(user)
+      }
     };
 
-    this.bsModalRef = this.modalService.show(RolesModalComponent, {initialState});
-    this.bsModalRef.content.closeBtnName = 'Close'; // Maneira 2
+    this.bsModalRef = this.modalService.show(RolesModalComponent, config);
+    // Maneira 2
+    this.bsModalRef.content.updateSelectedRoles.subscribe(values => {
+        const rolesToUpdate =  {
+          roles: [...values.filter(el => el.checked === true).map(el => el.name)]
+        }
+        if (rolesToUpdate){
+          this.adminService.updateUserRoles(user.username, rolesToUpdate.roles).subscribe(() => {
+            user.roles = [...rolesToUpdate.roles];
+            this.toastr.success("Roles updated successfully");
+          })
+        }
+    });
+    
+  }
 
+  private getRowsArray(user){
+    const roles = [];
+    const userRoles = user.roles;
+    const avaliableRows: any[] = [
+      {name: 'Admin', value: "admin"},
+      {name: 'Moderator', value: "moderator"},
+      {name: 'Member', value: "member"},
+    ]
+
+    avaliableRows.forEach(role => {
+      let isMatch = false;
+      // Se o user tiver a role marca como checked
+      for (const userRole of userRoles){
+        if (role.name === userRole){
+          isMatch = true;
+          role.checked = true;
+          roles.push(role);
+          break;
+        }
+      }
+      // Se o user não tiver a role não marca como checked
+      if (!isMatch){
+        role.checked = false;
+        roles.push(role);
+      }
+    })
+
+    return roles;
   }
 
 }

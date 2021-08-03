@@ -33,5 +33,10 @@ export class AdminService {
       })
     )
   }
+
+  updateUserRoles(username: string, roles: string[]){
+    // No post nãode passa o objeto HttpParams como no get, enmtão deve-se adicionar os parametros da query manualmente na url
+    return this.httpClient.post(this.baseUrl + "admin/edit-roles/" + username + "?roles=" + roles, {})
+  }
   
 }
