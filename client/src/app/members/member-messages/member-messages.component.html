@@ -1,12 +1,12 @@
 <div class="card">
     <div class="card-body">
         
-        <div *ngIf="messages.length === 0" class="mb-3">
+        <div *ngIf="(messageService.messageThread$ | async).length === 0" class="mb-3">
             No messages yet!
         </div>
 
-        <ul #scroll *ngIf="messages.length > 0" class="chat mb-3"  style="height: 535px; overflow-y: scroll; overflow-x:hidden">
-            <li *ngFor="let message of messages">
+        <ul #scroll *ngIf="(messageService.messageThread$ | async).length > 0" class="chat mb-3"  style="height: 535px; overflow-y: scroll; overflow-x:hidden">
+            <li *ngFor="let message of (messageService.messageThread$ | async)">
 
                 <!-- eu-->
                 <div class="row" *ngIf="message.senderUsername !== username">

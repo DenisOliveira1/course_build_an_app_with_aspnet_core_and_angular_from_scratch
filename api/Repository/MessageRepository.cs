@@ -24,7 +24,6 @@ namespace api.Repository
             _mapper = mapper;
         }
 
-
         public void AddMessage(MessageModel message)
         {
             _context.Messages.Add(message);
@@ -78,7 +77,7 @@ namespace api.Repository
                 foreach (var message in unreadMessages){
                     // Não precisa adicionar via _context.Update(x) porque são instancias que foram recuperadas do banco
                     // e como não tem AsNoTracking já estão sendo monitoradas e serão salvas no  _context.SaveChangesAsync()
-                    message.DateRead = DateTime.Now;
+                    message.DateRead = DateTime.UtcNow;
                 }
                 await _context.SaveChangesAsync();
             }
@@ -89,6 +88,48 @@ namespace api.Repository
         public async Task<bool> SaveAllAsync()
         {
             return await _context.SaveChangesAsync() > 0;
+        }
+
+        // Groups
+        // Tive que criar um Dto para GroupModel porque esta dando referencia circular ao recuperar um grupo
+        // Cada grupo tinha uma lista de connection e cada connection tinha um grupo com uma nova lista de connections dentro, infinitamente
+        public void AddGroup(GroupModel group)
+        {
+            _context.Groups.Add(group);
+        }
+
+        public async Task<GroupModel> GetGroupByName(string name)
+        {
+            return await _context.Groups
+                        .Include(x => x.Connections)
+                        .FirstOrDefaultAsync(x => x.Name == name);
+        }
+
+        public async Task<GroupModel> GetGroupForConnection(string connectionId)
+        {
+            return await _context.Groups
+                .Include(c => c.Connections)
+                .Where(c => c.Connections.Any(x => x.ConnectionId == connectionId))
+                .FirstOrDefaultAsync();
+        }
+
+        // Connetions
+
+        public void RemoveConnetion(ConnectionModel connection)
+        {
+            _context.Connections.Remove(connection);
+
+            var connections = _context.Connections.Where(x => x.groupName == connection.groupName).ToListAsync().Result;
+
+            if (connections.Count() <= 1) {
+                var group = _context.Groups.FirstOrDefaultAsync(x => x.Name == connection.groupName).Result;
+                _context.Groups.Remove(group);
+            }
+        }
+
+        public async Task<ConnectionModel> GetConnetion(string connectionId)
+        {
+            return await _context.Connections.FindAsync(connectionId);
         }
     }
 }

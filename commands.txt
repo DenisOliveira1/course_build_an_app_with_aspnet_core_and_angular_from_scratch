@@ -18,7 +18,8 @@ Criar migration:
 Desfazer migration m:
     dotnet ef database update 'nome m-1'
 
-Remove último migration:
+Remove último migration m:
+    dotnet ef database update 'nome m-1'
     dotnet ef migrations remove
 
 Recriar as tabelas:

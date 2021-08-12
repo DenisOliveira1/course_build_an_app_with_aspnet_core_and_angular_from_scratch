@@ -4,6 +4,7 @@ import { ReplaySubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { UserModel } from '../_models/userModel';
+import { PresenceService } from './presence.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,8 @@ export class AccountService {
   currentUser$ = this.currentUserSource.asObservable();
 
   constructor(
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    private presence: PresenceService
     ) { }
   
   // Essa função retorna um observable. O pipe permiter manipular esse retorno ainda no service
@@ -25,6 +27,7 @@ export class AccountService {
         const user = response;
         if (user) {
           this.setCurrentUser(user);
+          this.presence.createHubConnection(user);
         }
         return user;
       })
@@ -60,6 +63,7 @@ export class AccountService {
   logout(){
     localStorage.removeItem("user");
     this.currentUserSource.next(null);
+    this.presence.stopHubConnection();
   }
 
   getDecodedToken(token: string){

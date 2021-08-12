@@ -10,7 +10,7 @@ namespace api.Models
         public UserModel LikedUser { get; set; }
         public int LikedUserId { get; set; }
 
-        public DateTime DateLike { get; set; } = DateTime.Now;
+        public DateTime DateLike { get; set; } = DateTime.UtcNow;
 
     }
 }

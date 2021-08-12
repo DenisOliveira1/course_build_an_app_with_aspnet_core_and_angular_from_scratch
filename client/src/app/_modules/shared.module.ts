@@ -23,7 +23,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
       positionClass: "toast-bottom-right",
       timeOut: 2000,
       progressBar: true,
-      preventDuplicates: true
+      preventDuplicates: true,
+      enableHtml: true
     }),
     TabsModule.forRoot(),
     NgxGalleryModule,

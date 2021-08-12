@@ -13,36 +13,47 @@ export class MemberMessagesComponent implements OnInit {
 
   @ViewChild('scroll') private scroll: ElementRef;
   @ViewChild("messageForm") messageForm : NgForm;
-  @Input() messages : MessageModel[];
   @Input() username : string;
+  @Input() activate : boolean;
 
   messageContent: string;
 
   constructor(
-    private messageService : MessageService,
+    public messageService : MessageService, // Public pois aqui vamos acessar um observable desse service
     private toastr : ToastrService
-  ) { }
+  ) {
+    this.scrollToBottom(); 
+   }
 
   ngOnInit(): void {
+    //Manda essa função para que o service consiga chamar ela de lá
+    this.messageService.SendFunctionToService(this.scrollToBottom.bind(this));
   }
 
-  ngAfterViewChecked() {        
-    this.scrollToBottom();        
-  } 
+  ngAfterViewInit(){
+    if (this.activate){
+      this.scrollToBottom();
+      this.activate = false;
+    }
+  }
 
   sendMessage(){
-    this.messageService.sendMessage(this.username, this.messageContent).subscribe( message => {
-      this.messages.push(message);
+    this.messageService.sendMessage(this.username, this.messageContent).then(() => {
       this.messageForm.reset();
       this.toastr.success("Message sent successfully");
+      this.scrollToBottom();
     })
   }
 
-  scrollToBottom(): void {
+ async scrollToBottom(): Promise<void> {
+  //Tempo para que o refresh seja feito no HTML e o scroll va até o final,
+  // incluindo a nova menssagem que acabou de ser enviada
+  await new Promise(r => setTimeout(r, 100));
+
     try {
         this.scroll.nativeElement.scrollTop = this.scroll.nativeElement.scrollHeight;
     } catch(err) {
-      console.log(err);
+      // console.log(err);
      }                 
   }
 

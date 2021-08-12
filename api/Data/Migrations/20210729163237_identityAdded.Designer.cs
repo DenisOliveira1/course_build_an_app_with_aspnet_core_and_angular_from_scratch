@@ -9,8 +9,8 @@ using api.Context;
 namespace api.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210729163237_identityAdded")]
-    partial class identityAdded
+    [Migration("20210729163237_IdentityAdded")]
+    partial class IdentityAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

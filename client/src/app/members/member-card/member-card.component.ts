@@ -3,6 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Tools } from 'src/app/_helpers/Tools';
 import { MemberModel } from 'src/app/_models/memberModel';
 import { MembersService } from 'src/app/_services/members.service';
+import { PresenceService } from 'src/app/_services/presence.service';
 
 @Component({
   selector: 'app-member-card',
@@ -18,7 +19,8 @@ export class MemberCardComponent implements OnInit {
   
   constructor(
     private memberService : MembersService,
-    private toastr : ToastrService
+    private toastr : ToastrService,
+    public presenceService: PresenceService // Public pois aqui vamos acessar um observable desse service
   ) { }
 
   ngOnInit(): void {

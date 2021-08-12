@@ -2,7 +2,7 @@
 
 namespace api.Data.Migrations
 {
-    public partial class renameRecipientUsernameAndSenderKnownAsInMessagesTable : Migration
+    public partial class RenameRecipientUsernameAndSenderKnownAsInMessagesTable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

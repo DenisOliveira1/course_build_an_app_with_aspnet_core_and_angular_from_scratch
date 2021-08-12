@@ -63,7 +63,7 @@ namespace api.Repository
         }
         
         // MemberDto
-         public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
+        public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
         {
             var query = _context.Users
                 .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)

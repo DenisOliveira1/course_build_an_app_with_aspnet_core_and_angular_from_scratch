@@ -9,8 +9,8 @@ using api.Context;
 namespace api.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210728131527_renameRecipientUsernameAndSenderKnownAsInMessagesTable")]
-    partial class renameRecipientUsernameAndSenderKnownAsInMessagesTable
+    [Migration("20210728131527_RenameRecipientUsernameAndSenderKnownAsInMessagesTable")]
+    partial class RenameRecipientUsernameAndSenderKnownAsInMessagesTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

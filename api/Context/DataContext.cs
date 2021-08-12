@@ -14,6 +14,8 @@ namespace api.Context
         public DbSet<MessageModel> Messages { get; set; }
         // Não será necessario ir ao banco para consultar fotos individualmente, logo não há porque ter um contexto Photos
         // public DbSet<PhotoModel> Photos { get; set; }
+        public DbSet<ConnectionModel> Connections { get; set; }
+        public DbSet<GroupModel> Groups { get; set; }
 
         public DataContext(DbContextOptions options): base(options)
         {

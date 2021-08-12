@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace api.Data.Migrations
 {
-    public partial class identityAdded : Migration
+    public partial class IdentityAdded : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
