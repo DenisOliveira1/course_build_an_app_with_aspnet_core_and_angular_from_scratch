@@ -63,12 +63,12 @@ namespace api.Repository
         public async Task<IEnumerable<MessageDto>> GetMessagesThread(string currentUsername, string recipientUsername)
         {
             var messages = await _context.Messages
-                                // .Include(m => m.Sender).ThenInclude(u => u.Photos)
-                                // .Include(m => m.Recipient).ThenInclude(u => u.Photos)
+                                .Include(m => m.Sender).ThenInclude(u => u.Photos)
+                                .Include(m => m.Recipient).ThenInclude(u => u.Photos)
                                 .Where(m => (m.Recipient.UserName == currentUsername && m.Sender.UserName == recipientUsername && m.RecipientDeleted == false) ||
                                             (m.Sender.UserName == currentUsername && m.Recipient.UserName == recipientUsername && m.SenderDeleted == false))
                                 .OrderBy(m => m.MessageSent)
-                                .ProjectTo<MessageDto>(_mapper.ConfigurationProvider) // Com ProjectTo não precisa mais fazer includes
+                                // .ProjectTo<MessageDto>(_mapper.ConfigurationProvider) // Com ProjectTo não precisa mais fazer includes
                                 .ToListAsync();
 
             var unreadMessages = messages.Where(m => m.DateRead == null && m.RecipientUsername == currentUsername).ToList();
@@ -82,7 +82,9 @@ namespace api.Repository
                 // await _context.SaveChangesAsync();
             }
 
-            return messages;
+            var messagesDto = _mapper.Map<List<MessageDto>>(messages);
+
+            return messagesDto;
         }
 
         // Groups
