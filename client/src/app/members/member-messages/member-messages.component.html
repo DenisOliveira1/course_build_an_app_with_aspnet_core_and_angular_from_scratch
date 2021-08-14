@@ -5,7 +5,11 @@
             No messages yet!
         </div>
 
-        <ul #scroll *ngIf="(messageService.messageThread$ | async).length > 0" class="chat mb-3"  style="height: 535px; overflow-y: scroll; overflow-x:hidden">
+        <ul 
+            #scroll *ngIf="(messageService.messageThread$ | async).length > 0"
+            class="chat mb-3"
+            style="height: 535px; overflow-y: scroll; overflow-x:hidden">
+            
             <li *ngFor="let message of (messageService.messageThread$ | async)">
 
                 <!-- eu-->

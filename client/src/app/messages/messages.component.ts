@@ -4,6 +4,7 @@ import { Pagination } from '../_models/params/pagination';
 import { MessageParams } from '../_models/params/messageParams';
 import { MessageService } from '../_services/message.service';
 import { ToastrService } from 'ngx-toastr';
+import { ConfirmService } from '../_services/confirm.service';
 
 @Component({
   selector: 'app-messages',
@@ -19,7 +20,8 @@ export class MessagesComponent implements OnInit {
 
   constructor(
     private messageService : MessageService,
-    private toastr : ToastrService
+    private toastr : ToastrService,
+    private confirmService: ConfirmService
   ) {
     // pega cache messageParams salvo
     this.messageParams = this.messageService.getMessageParams();
@@ -47,9 +49,13 @@ export class MessagesComponent implements OnInit {
   }
   
   deleteMessage(id: number){
-    this.messageService.deleteMessage(id).subscribe(() => {
-      this.messages.splice(this.messages.findIndex(m => m.id === id), 1);
-      this.toastr.success("The message has been delete successfully");
+    this.confirmService.confirm(undefined, "Are you sure you want to delete this message?").subscribe(result => {
+      if (result){
+        this.messageService.deleteMessage(id).subscribe(() => {
+          this.messages.splice(this.messages.findIndex(m => m.id === id), 1);
+          this.toastr.success("The message has been delete successfully");
+        })
+      }
     })
   }
 

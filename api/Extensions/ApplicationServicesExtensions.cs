@@ -35,6 +35,7 @@ namespace api.Extentions
             services.AddScoped<LogUserActivity>();
             // Use AddSingleton porque todo mundo que se conectar vai usar a mesma intancia do PresenceTracker, para todo terme acesso ao mesmo Dictionary
             services.AddSingleton<PresenceTracker>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
                
             return services;
         }

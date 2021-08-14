@@ -6,6 +6,7 @@ using api.Helpers;
 using api.Helpers.Params;
 using api.Models;
 using api.Repository.Interfaces;
+using api.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,27 +15,25 @@ namespace api.Controllers
     [Authorize]
     public class LikesController : BaseApiController
     {
-        private readonly IUserRepository _userRepository;
-        private readonly ILikesRepository _likesRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public LikesController(IUserRepository userRepository, ILikesRepository likesRepository)
+        public LikesController(IUnitOfWork UnitOfWork)
         {
-            _userRepository = userRepository;
-            _likesRepository = likesRepository;
+            _unitOfWork = UnitOfWork;
         }
 
         [HttpPost("{username}")]
         public async Task<ActionResult> AddLike(string username){
 
             var sourceUserId = User.GetUserId();
-            var sourceUser = await _likesRepository.GetUserWithLikes(sourceUserId);
+            var sourceUser = await _unitOfWork.LikesRepository.GetUserWithLikes(sourceUserId);
 
-            var likedUser = await _userRepository.GetUserByUsernameAsync(username);
+            var likedUser = await _unitOfWork.UserRepository.GetUserByUsernameAsync(username);
 
             if (likedUser == null) return NotFound();
             if (sourceUser.UserName == username) return BadRequest("You cannot like yourself");
 
-            var userLike =  await _likesRepository.GetUserLike(sourceUserId, likedUser.Id);
+            var userLike =  await _unitOfWork.LikesRepository.GetUserLike(sourceUserId, likedUser.Id);
             if (userLike != null) return BadRequest("You have already liked " + likedUser.UserName.ToTitleCase());
 
             userLike = new UserLikeModel{
@@ -45,7 +44,7 @@ namespace api.Controllers
             sourceUser.LikedUsers.Add(userLike);
 
             // Mesmo adicionando pelo contexto likeRepository da para Salvar pelo contexto do userRepository, mas isso será atualizado
-            if(await _userRepository.SaveAllAsync()){
+            if(await _unitOfWork.Complete()){
                 return Ok();
             }
             return BadRequest("Failed to like user");
@@ -56,7 +55,7 @@ namespace api.Controllers
 
             likesParams.userId = User.GetUserId();
             // Se esquecer o await o resultado chega, porém emcapsulado em um json diferente
-            var users = await _likesRepository.GetUserLikes(likesParams);
+            var users = await _unitOfWork.LikesRepository.GetUserLikes(likesParams);
             Response.AddPaginationHeader(users.CurrentPage, users.TotalPages, users.PageSize, users.TotalCount);
 
             return Ok(users);

@@ -7,6 +7,7 @@ import { take } from 'rxjs/operators';
 import { MemberModel } from 'src/app/_models/memberModel';
 import { UserModel } from 'src/app/_models/userModel';
 import { AccountService } from 'src/app/_services/account.service';
+import { ConfirmService } from 'src/app/_services/confirm.service';
 import { MembersService } from 'src/app/_services/members.service';
 
 @Component({
@@ -35,7 +36,8 @@ export class MemberEditComponent implements OnInit {
     private accountService : AccountService,
     private memberService : MembersService,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    private confirmService: ConfirmService
   ) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(
       user => this.user = user
@@ -75,10 +77,14 @@ export class MemberEditComponent implements OnInit {
   }
 
   deleteAccount(){
-    this.memberService.deleteUser().subscribe(() => {
-      this.router.navigateByUrl("/");
-      this.toastr.warning("Account deleted successfully");
-      this.accountService.setCurrentUser(null);
+    this.confirmService.confirm(undefined, "Are you sure you want to delete your account?").subscribe(result => {
+      if(result){     
+        this.memberService.deleteUser().subscribe(() => {
+          this.router.navigateByUrl("/");
+          this.toastr.warning("Account deleted successfully");
+          this.accountService.setCurrentUser(null);
+        })
+      }
     })
   }
 }

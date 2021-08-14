@@ -25,12 +25,6 @@ namespace api.Repository
             _mapper = mapper;
         }
 
-        public async Task<bool> SaveAllAsync()
-        {   
-            // Retorna o número de mudanças salvas no banco de dados
-            return await _context.SaveChangesAsync() > 0;
-        }
-
         public void Update(UserModel user)
         {
             _context.Entry(user).State = EntityState.Modified;
@@ -60,6 +54,13 @@ namespace api.Repository
              return await _context.Users
                 .Include(u => u.Photos)
                 .ToListAsync();
+        }
+        public async Task<string> GetUserGenderAsync(string username)
+        {
+            return await _context.Users
+                .Where(x => x.UserName == username)
+                .Select(x => x.Gender)
+                .FirstOrDefaultAsync();
         }
         
         // MemberDto
@@ -100,5 +101,6 @@ namespace api.Repository
                 .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
                 .SingleOrDefaultAsync();
         }
+
     }
 }

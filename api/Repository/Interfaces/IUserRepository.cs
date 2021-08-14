@@ -12,12 +12,12 @@ namespace api.Repository.Interfaces
 
         void Update(UserModel user);
         void Delete(UserModel user);
-        Task<bool> SaveAllAsync();
         
         // UserModel
         Task<IEnumerable<UserModel>> GetUsersAsync();
         Task<UserModel> GetUserByIdAsync(int id);
         Task<UserModel> GetUserByUsernameAsync(string username);
+        Task<string> GetUserGenderAsync(string username);
 
         // MemberDto        
         Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams);

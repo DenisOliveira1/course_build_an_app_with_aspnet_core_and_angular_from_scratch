@@ -64,7 +64,7 @@ export class UserManagementComponent implements OnInit {
       class: 'modal-dialog-centered',
       initialState: {
         user,
-        roles: this.getRowsArray(user)
+        roles: this.getRolesArray(user)
       }
     };
 
@@ -84,16 +84,16 @@ export class UserManagementComponent implements OnInit {
     
   }
 
-  private getRowsArray(user){
+  private getRolesArray(user){
     const roles = [];
     const userRoles = user.roles;
-    const avaliableRows: any[] = [
+    const avaliableRoles: any[] = [
       {name: 'Admin', value: "admin"},
       {name: 'Moderator', value: "moderator"},
       {name: 'Member', value: "member"},
     ]
 
-    avaliableRows.forEach(role => {
+    avaliableRoles.forEach(role => {
       let isMatch = false;
       // Se o user tiver a role marca como checked
       for (const userRole of userRoles){

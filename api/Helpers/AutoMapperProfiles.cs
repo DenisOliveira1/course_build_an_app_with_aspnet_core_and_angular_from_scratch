@@ -26,10 +26,8 @@ namespace api.Helpers
                 .ForMember(dest => dest.RecipientPhotoUrl, 
                     opt => opt.MapFrom(src => src.Recipient.Photos.FirstOrDefault(x => x.IsMain).Url));
             CreateMap<MessageDto, MessageModel>();
-            // CreateMap<DateTime, DateTime>().ConvertUsing(d => DateTime.SpecifyKind(d, DateTimeKind.Utc)); // Erro
             CreateMap<GroupModel, GroupDto>().ReverseMap();
             CreateMap<ConnectionModel, ConnectionDto>().ReverseMap();
-
         }
     }
 }
