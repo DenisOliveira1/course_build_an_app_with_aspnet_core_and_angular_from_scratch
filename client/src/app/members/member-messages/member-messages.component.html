@@ -6,10 +6,12 @@
         </div>
 
         <ul 
-            #scroll *ngIf="(messageService.messageThread$ | async).length > 0"
-            class="chat mb-3"
-            style="height: 535px; overflow-y: scroll; overflow-x:hidden">
-            
+            #scrollMe
+            style="height: 535px; overflow-y:scroll; overflow-x:hidden;"
+            [scrollTop]="scrollMe.scrollHeight"
+            *ngIf="(messageService.messageThread$ | async).length > 0"
+            class="chat mb-3">
+
             <li *ngFor="let message of (messageService.messageThread$ | async)">
 
                 <!-- eu-->

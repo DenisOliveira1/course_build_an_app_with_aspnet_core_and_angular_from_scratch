@@ -22,12 +22,6 @@ export class MessageService {
   private messageThreadSource = new BehaviorSubject<MessageModel[]>([]);
   messageThread$ = this.messageThreadSource.asObservable();
 
-  private messageComponentScrollToBottomFunction: () => void;
-
-  SendFunctionToService(func: () => void) {
-    this.messageComponentScrollToBottomFunction = func;
-  }
-
   constructor(
     private httpClient : HttpClient
   ) { }
@@ -89,7 +83,6 @@ export class MessageService {
           //BehaviorSubject não admite alterações, logo o operador [...] vai gerar um novo array ao invés de adicionar conteúdo
           //O novo array vai ser uma copia do anterior com a adição da nova mensagem
           this.messageThreadSource.next([...messages, message]);
-          this.messageComponentScrollToBottomFunction();
         })
       })
 
