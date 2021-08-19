@@ -11,6 +11,9 @@ Run:
 
 Migrations ------------------------------------------------------------
 
+Criar migration inicial definindo pasta de m igrations:
+    dotnet ef migrations add PostgresInitial -o Data/Migrations
+
 Criar migration:
     dotnet ef migrations add ExtendedUserEntity
     dotnet ef database update (implementa até última migration, mesmo efeito de rodar a api)
@@ -25,13 +28,15 @@ Remove último migration m:
 Recriar as tabelas:
     dotnet ef database drop
     dotnet ef database update (implementa até última migration, mesmo efeito de rodar a api)
-    
+
+Deletar as tabelas:
+    dotnet ef database drop
+
 Angular ------------------------------------------------------------
 
 Criar projeto Angular:
     npm install -g @angular/cli
     ng new client
-
 
 Angular Component:
     ng g c nav --skip-tests
@@ -76,6 +81,13 @@ Deletar push na cloud:
     Apagada segunda linha do arquivo que vai abrir e digita :wq e enter
     git push --force
 
+Removing the last commit:
+    To remove the last commit from git, you can simply run git reset --hard HEAD^ If you are removing multiple commits from the top, you can run git reset --hard HEAD~2 to remove the last two commits. You can increase the number to remove even more commits.
+    If you want to "uncommit" the commits, but keep the changes around for reworking, remove the "--hard": git reset HEAD^ which will evict the commits from the branch and from the index, but leave the working tree around.
+    If you want to save the commits on a new branch name, then run git branch newbranchname before doing the git reset.
+    ORIGINAL did fork but search didn't helped me
+    
 Docker ------------------------------------------------------------
 
 docker run --name dev -e POSTGRES_USER=appuser -e POSTGRES_PASSWORD=password -p 5432:5432 -d postgres:latest
+
