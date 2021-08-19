@@ -54,6 +54,12 @@ Angular Interceptor:
 Angular Directives:
     ng g d has-role --skip-tests
 
+Gera versão em memoria fisica dos arquivos do angular:
+    ng build
+
+Gera versão em memoria fisica dos arquivos do angular d eforma otimizada, para produção:
+    ng build --prod
+
 // Anotação para receber propriedades para um componente pai
 @Input() member: MemberModel;
 
@@ -69,3 +75,7 @@ Deletar push na cloud:
     git rebase -i HEAD~2
     Apagada segunda linha do arquivo que vai abrir e digita :wq e enter
     git push --force
+
+Docker ------------------------------------------------------------
+
+docker run --name dev -e POSTGRES_USER=appuser -e POSTGRES_PASSWORD=password -p 5432:5432 -d postgres:latest
