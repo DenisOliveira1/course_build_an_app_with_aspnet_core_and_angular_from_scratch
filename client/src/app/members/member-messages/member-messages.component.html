@@ -1,14 +1,16 @@
 <div class="card">
-    <div class="card-body">
-        
+    <div class="card-body"
+        style="height: 635px; overflow-y:scroll; overflow-x:hidden;"
+        [scrollTop]="scrollMe.scrollHeight"
+        #scrollMe
+    >
         <div *ngIf="(messageService.messageThread$ | async).length === 0" class="mb-3">
             No messages yet!
         </div>
 
         <ul 
-            #scroll *ngIf="(messageService.messageThread$ | async).length > 0"
-            class="chat mb-3"
-            style="height: 535px; overflow-y: scroll; overflow-x:hidden">
+            *ngIf="(messageService.messageThread$ | async).length > 0"
+            class="chat mb-3">
             
             <li *ngFor="let message of (messageService.messageThread$ | async)">
 
@@ -89,9 +91,10 @@
                 </textarea>
                 <div class="input-group-append">
                     <button class="btn btn-primary"
-                            [disabled] = "!messageForm.valid"
+                            [disabled] = "!messageForm.valid || loading"
                             type="submit">
                             Send
+                            <i *ngIf="loading" class="fa fa-spinner fa-spin"></i>
                     </button>
                 </div>
             </div>

@@ -91,3 +91,8 @@ Docker ------------------------------------------------------------
 
 docker run --name dev -e POSTGRES_USER=appuser -e POSTGRES_PASSWORD=password -p 5432:5432 -d postgres:latest
 
+Heroku ------------------------------------------------------------
+
+Enviar para Heroku. Para enviar o código para lá deve ser feito o commit antes.
+    git push heroku master
+    git push heroku master --force

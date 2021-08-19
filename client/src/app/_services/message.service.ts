@@ -8,6 +8,7 @@ import { GroupModel } from '../_models/groupModel';
 import { MessageModel } from '../_models/messageModel';
 import { MessageParams } from '../_models/params/messageParams';
 import { UserModel } from '../_models/userModel';
+import { BusyService } from './busy.service';
 import { getPaginatedResults, getPaginationHeaders } from './paginationHelper';
 
 @Injectable({
@@ -22,14 +23,9 @@ export class MessageService {
   private messageThreadSource = new BehaviorSubject<MessageModel[]>([]);
   messageThread$ = this.messageThreadSource.asObservable();
 
-  private messageComponentScrollToBottomFunction: () => void;
-
-  SendFunctionToService(func: () => void) {
-    this.messageComponentScrollToBottomFunction = func;
-  }
-
   constructor(
-    private httpClient : HttpClient
+    private httpClient : HttpClient,
+    private busyService : BusyService
   ) { }
 
   getMessages(messageParams : MessageParams){
@@ -69,6 +65,7 @@ export class MessageService {
   }
 
   createHubConnection(user : UserModel, otherUsername: string){
+    this.busyService.busy();
     this.hubConnection = new HubConnectionBuilder()  
       .withUrl(this.hubUrl + "message?user=" + otherUsername, {
         accessTokenFactory: () => user.token
@@ -78,7 +75,8 @@ export class MessageService {
 
     this.hubConnection
       .start()
-      .catch(error => console.log(error));
+      .catch(error => console.log(error))
+      .finally(() => this.busyService.idle());
 
       this.hubConnection.on("ReceiveMessageThread", messages => {
         this.messageThreadSource.next(messages);
@@ -89,7 +87,6 @@ export class MessageService {
           //BehaviorSubject não admite alterações, logo o operador [...] vai gerar um novo array ao invés de adicionar conteúdo
           //O novo array vai ser uma copia do anterior com a adição da nova mensagem
           this.messageThreadSource.next([...messages, message]);
-          this.messageComponentScrollToBottomFunction();
         })
       })
 
@@ -109,6 +106,7 @@ export class MessageService {
 
   stopHubConnection(){
     if (this.hubConnection)
+      this.messageThreadSource.next([]);
       this.hubConnection
         .stop()
         .catch(error => console.log(error));
